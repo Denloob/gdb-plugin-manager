@@ -1,34 +1,18 @@
-define init-peda
-source ~/peda/peda.py
-end
-document init-peda
-Initializes the PEDA (Python Exploit Development Assistant for GDB) framework
-end
+set debuginfod enabled on
 
-define init-peda-arm
-source ~/peda-arm/peda-arm.py
-end
-document init-peda-arm
-Initializes the PEDA (Python Exploit Development Assistant for GDB) framework for ARM.
-end
+python
+def init_peda():
+    gdb.execute("source ~/.gdb/peda/peda.py")
 
-define init-peda-intel
-source ~/peda-arm/peda-intel.py
-end
-document init-peda-intel
-Initializes the PEDA (Python Exploit Development Assistant for GDB) framework for INTEL.
-end
+def init_peda_arm():
+    gdb.execute("source ~/.gdb/peda-arm/peda-arm.py")
 
-define init-pwndbg
-source ~/pwndbg/gdbinit.py
-end
-document init-pwndbg
-Initializes PwnDBG
-end
+def init_peda_intel():
+    gdb.execute("source ~/.gdb/peda-arm/peda-intel.py")
 
-define init-gef
-source ~/gef/gef.py
-end
-document init-gef
-Initializes GEF (GDB Enhanced Features)
+def init_pwndbg():
+    gdb.execute("source ~/.gdb/pwndbg/gdbinit.py")
+
+def init_gef():
+    gdb.execute("source ~/.gdb/gef/gef.py")
 end
