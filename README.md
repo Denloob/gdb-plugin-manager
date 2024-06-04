@@ -1,12 +1,12 @@
 # GDB plugin manager
-A set of scripts for installing and managing GEF, PEDA (+peda-arm) and pwndbg (+splitmind)
+A set of scripts for installing and managing GEF, PEDA (+peda-arm) and pwndbg (+splitmind +r2pipe(Ghidra intergration))
 
 ---
 
 A partial rewrite of [apogiatzis/gdb-peda-pwndbg-gef](https://github.com/apogiatzis/gdb-peda-pwndbg-gef). \
 **Following features were added:**
 - Customizable plugin install directory
-- Installation of [splitmind](https://github.com/jerdna-regeiz/splitmind)
+- Installation of [splitmind](https://github.com/jerdna-regeiz/splitmind) and r2pipe for [the Ghidra integration](https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md#ghidra)
 - Refactor of the scripts for easier extension and modification
 - Allow fallback plugin when none selected (especially usefully for pwntools)
 - .gdbinit rewritten in python for easier extension
