@@ -49,3 +49,10 @@ can be used.
 ### Changing default plugin
 Open your `.gdbinit` and change the function being called inside the last if statement.
 If you want to use plain gdb as default, remove the if statement.
+
+## Uninstall
+No uninstall script is provided for safety reasons.
+However to uninstall you can delete the following:
+- `$GDB_HOME` directory (by default `~/.gdb`)
+- gdb run scripts (located at `/usr/bin/`, for names see [gdb_runners/](./gdb_runners))
+- .gdbinit (by default `~/.gdbinit`) - Your previous gdbinit is stored at `~/.gdbinit.back_up`
