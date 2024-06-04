@@ -13,6 +13,17 @@ def init_peda_intel():
 def init_pwndbg():
     gdb.execute("source ~/.gdb/pwndbg/gdbinit.py")
 
+    gdb.execute("source ~/.gdb/splitmind/gdbinit.py")
+
+    import splitmind
+    (splitmind.Mind()
+      .below(display="backtrace")
+      .right(display="stack")
+      .right(display="regs")
+      .right(of="main", display="disasm")
+      .show("legend", on="disasm")
+    ).build()
+
 def init_gef():
     gdb.execute("source ~/.gdb/gef/gef.py")
 end
