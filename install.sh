@@ -27,8 +27,8 @@ GDB_HOME="${GDB_HOME:=$HOME/.gdb/}" # You can overwrite the GDB_HOME with an env
 #######################################
 download() {
 	if [ -d "$GDB_HOME/$1" ]; then
-		echo "[-] $1 found"
-		read -rp "skip download to continue? (enter 'y' or 'n') " skip
+		echo "[-] $1 is already installed."
+		read -rp "skip? (enter 'y' or 'n') " skip
 
 		if [ "$skip" = 'n' ]; then
 			rm -rfi "${GDB_HOME:?}/$1"
