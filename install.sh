@@ -52,6 +52,7 @@ download 'peda' 'https://github.com/longld/peda.git'
 download 'peda-arm' 'https://github.com/alset0326/peda-arm.git'
 download 'pwndbg' 'https://github.com/pwndbg/pwndbg.git' './setup.sh'
 download 'gef' 'https://github.com/hugsy/gef.git'
+download 'splitmind' 'https://github.com/jerdna-regeiz/splitmind.git'
 
 cd "$SCRIPT_DIR" || {
 	echo "$0: error opening '$SCRIPT_DIR'."
