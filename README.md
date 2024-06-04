@@ -19,6 +19,9 @@ cd gdb-plugin-manager
 ./install.sh
 ```
 
+You may install the plugins in a custom directory by setting the $GDB_HOME env variable.
+It will be used during and after the installation.
+
 After a successful install the following commands will be available to you
 
 ```
