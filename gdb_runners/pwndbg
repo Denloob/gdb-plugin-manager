@@ -1,2 +1,2 @@
 #!/bin/sh
-exec gdb -q --eval-command 'py init_pwndbg()' "$@"
+GDB_PLUGIN_MANAGER='' exec gdb -q --eval-command 'py init_pwndbg()' "$@"
