@@ -1,6 +1,7 @@
 set debuginfod enabled on
 
 python
+import os
 import functools
 from typing import Callable, Any
 
@@ -14,23 +15,25 @@ def plugin_initializer(f: Callable) -> Callable:
 
     return wrapper
 
+GDB_HOME=os.environ.get("GDB_HOME", "~/.gdb/")
+
 @plugin_initializer
 def init_peda():
-    gdb.execute("source ~/.gdb/peda/peda.py")
+    gdb.execute(f"source {GDB_HOME}/peda/peda.py")
 
 @plugin_initializer
 def init_peda_arm():
-    gdb.execute("source ~/.gdb/peda-arm/peda-arm.py")
+    gdb.execute(f"source {GDB_HOME}/peda-arm/peda-arm.py")
 
 @plugin_initializer
 def init_peda_intel():
-    gdb.execute("source ~/.gdb/peda-arm/peda-intel.py")
+    gdb.execute(f"source {GDB_HOME}/peda-arm/peda-intel.py")
 
 @plugin_initializer
 def init_pwndbg():
-    gdb.execute("source ~/.gdb/pwndbg/gdbinit.py")
+    gdb.execute(f"source {GDB_HOME}/pwndbg/gdbinit.py")
 
-    gdb.execute("source ~/.gdb/splitmind/gdbinit.py")
+    gdb.execute(f"source {GDB_HOME}/splitmind/gdbinit.py")
 
     import splitmind
     (splitmind.Mind()
@@ -43,7 +46,7 @@ def init_pwndbg():
 
 @plugin_initializer
 def init_gef():
-    gdb.execute("source ~/.gdb/gef/gef.py")
+    gdb.execute(f"source {GDB_HOME}/gef/gef.py")
 
 if not plugin_initialized:
     # Initialize a default plugin if none were executed
