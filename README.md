@@ -1,4 +1,4 @@
-# GDB plugin manager
+# GDB pwn manager
 A set of scripts for installing and managing GEF, PEDA (+peda-arm) and pwndbg (+splitmind +r2pipe(Ghidra intergration))
 
 ---
@@ -14,8 +14,8 @@ A partial rewrite of [apogiatzis/gdb-peda-pwndbg-gef](https://github.com/apogiat
 
 ## Install
 ```
-git clone https://github.com/Denloob/gdb-plugin-manager.git
-cd gdb-plugin-manager
+git clone https://github.com/Denloob/gdb-pwn-manager.git
+cd gdb-pwn-manager
 ./install.sh
 ```
 
