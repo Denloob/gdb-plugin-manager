@@ -1,0 +1,2 @@
+#!/bin/sh
+exec gdb -q --eval-command 'py init_peda()' "$@"

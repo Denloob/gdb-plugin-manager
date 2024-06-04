@@ -1,0 +1,2 @@
+#!/bin/sh
+gdb -q --eval-command 'py init_gef()' "$@"
