@@ -1,101 +1,76 @@
-#!/bin/sh
+#!/bin/bash
 
-installer_path=$PWD
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 echo "[+] Checking for required dependencies..."
-if command -v git >/dev/null 2>&1 ; then
-    echo "[-] Git found!"
+if command -v git >/dev/null 2>&1; then
+	echo "[-] Git found!"
 else
-    echo "[-] Git not found! Aborting..."
-    echo "[-] Please install git and try again."
+	echo "[-] Git not found! Aborting..."
+	echo "[-] Please install git and try again."
 fi
 
 if [ -f ~/.gdbinit ] || [ -h ~/.gdbinit ]; then
-    echo "[+] backing up gdbinit file"
-    cp ~/.gdbinit ~/.gdbinit.back_up
+	echo "[+] backing up gdbinit file"
+	cp -i ~/.gdbinit ~/.gdbinit.back_up
 fi
 
-# download peda and decide whether to overwrite if exists
-if [ -d ~/peda ] || [ -h ~/.peda ]; then
-    echo "[-] PEDA found"
-    read -p "skip download to continue? (enter 'y' or 'n') " skip_peda
+# NOTE: if you change the hardcoded GDB_HOME path, you probably want to also change it in update.sh
+GDB_HOME="${GDB_HOME:=~/.gdb/}" # You can overwrite the GDB_HOME with an env variable.
 
-    if [ $skip_peda = 'n' ]; then
-        rm -rf ~/peda
-        git clone https://github.com/longld/peda.git ~/peda
-    else
-        echo "PEDA skipped"
-    fi
-else
-    echo "[+] Downloading PEDA..."
-    git clone https://github.com/longld/peda.git ~/peda
-fi
+#######################################
+# Download a gdb plugin.
+# Arguments:
+#   $1 - The dirname of the plugin inside $GDB_HOME and it's name, like `plug`
+#   $2 - The git url to clone for the plugin, like `https://example.com/plug.git`
+#   $3 - [Optional] the command to run after a successful install inside the dir.
+#######################################
+download() {
+	if [ -d "$GDB_HOME/$1" ]; then
+		echo "[-] $1 found"
+		read -rp "skip download to continue? (enter 'y' or 'n') " skip
 
-# download peda arm
-if [ -d ~/peda-arm ] || [ -h ~/.peda ]; then
-    echo "[-] PEDA ARM found"
-    read -p "skip download to continue? (enter 'y' or 'n') " skip_peda
+		if [ "$skip" = 'n' ]; then
+			rm -rfi "${GDB_HOME:?}/$1"
+		else
+			echo "[#] $1 skipped"
+			return 0
+		fi
+	fi
 
-    if [ $skip_peda = 'n' ]; then
-        rm -rf ~/peda-arm
-	git clone https://github.com/alset0326/peda-arm.git
-    else
-	echo "PEDA ARM skipped"
-    fi
-else	    
-    echo "[+] Downloading PEDA ARM..."
-    git clone https://github.com/alset0326/peda-arm.git ~/peda-arm
-fi
+	git clone "$2" "$GDB_HOME/$1"
 
-# download pwndbg
-if [ -d ~/pwndbg ] || [ -h ~/.pwndbg ]; then
-    echo "[-] Pwndbg found"
-    read -p "skip download to continue? (enter 'y' or 'n') " skip_pwndbg
+	if [ $# -ge 3 ]; then
+		cd "$GDB_HOME/$1" || return 1
+		bash -c "$3"
+	fi
 
-    if [ $skip_pwndbg = 'n' ]; then
-        rm -rf ~/pwndbg
-        git clone https://github.com/pwndbg/pwndbg.git ~/pwndbg
-
-        cd ~/pwndbg
-        ./setup.sh
-    else
-        echo "Pwndbg skipped"
-    fi
-else
-    echo "[+] Downloading Pwndbg..."
-    git clone https://github.com/pwndbg/pwndbg.git ~/pwndbg
-
-    cd ~/pwndbg
-    ./setup.sh
-fi
-
-# download gef
-echo "[+] Downloading GEF..."
-git clone https://github.com/hugsy/gef.git ~/gef
-
-cd $installer_path
-
-echo "[+] Setting .gdbinit..."
-cp gdbinit ~/.gdbinit
-
-{
-  echo "[+] Creating files..."
-    sudo cp gdb-peda /usr/bin/gdb-peda &&\
-    sudo cp gdb-peda-arm /usr/bin/gdb-peda-arm &&\
-    sudo cp gdb-peda-intel /usr/bin/gdb-peda-intel &&\
-    sudo cp gdb-pwndbg /usr/bin/gdb-pwndbg &&\
-    sudo cp gdb-gef /usr/bin/gdb-gef
-} || {
-  echo "[-] Permission denied"
-    exit
+	echo "[+] $1 done."
 }
 
+download 'peda' 'https://github.com/longld/peda.git'
+download 'peda-arm' 'https://github.com/alset0326/peda-arm.git'
+download 'pwndbg' 'https://github.com/pwndbg/pwndbg.git' './setup.sh'
+download 'gef' 'https://github.com/hugsy/gef.git'
+
+cd "$SCRIPT_DIR" || {
+	echo "$0: error opening '$SCRIPT_DIR'."
+	exit 1
+}
+
+echo "[+] Setting .gdbinit..."
+read -rp "Overwrite .gdbinit with a default one? (enter 'y' or 'n') " overwrite
+if [ "$overwrite" = 'y' ]; then
+	cp gdbinit ~/.gdbinit
+fi
+
 {
-  echo "[+] Setting permissions..."
-    sudo chmod +x /usr/bin/gdb-*
+	echo "[+] Creating files..."
+	chmod +x peda peda-arm peda-intel pwndbg gef
+	sudo cp -i peda peda-arm peda-intel pwndbg gef /usr/bin/
 } || {
-  echo "[-] Permission denied"
-    exit
+	echo "[-] Permission denied"
+	exit
 }
 
 echo "[+] Done"
