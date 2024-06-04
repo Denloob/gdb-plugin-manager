@@ -51,7 +51,7 @@ download 'peda' 'https://github.com/longld/peda.git'
 download 'peda-arm' 'https://github.com/alset0326/peda-arm.git'
 download 'pwndbg' 'https://github.com/pwndbg/pwndbg.git' './setup.sh && ./.venv/bin/pip install r2pipe' # after download, setup pwndbg and install r2pipe for ghidra (r2) integration. https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md#ghidra
 download 'gef' 'https://github.com/hugsy/gef.git'
-download 'splitmind' 'https://github.com/jerdna-regeiz/splitmind.git'
+download 'splitmind' 'https://github.com/Denloob/splitmind'
 
 cd "$SCRIPT_DIR" || {
 	echo "$0: error opening '$SCRIPT_DIR'."
