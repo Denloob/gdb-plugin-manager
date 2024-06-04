@@ -31,7 +31,7 @@ def init_pwndbg():
 def init_gef():
     gdb.execute(f"source {GDB_HOME}/gef/gef.py")
 
-if "GDB_PLUGIN_MANAGER" not in os.environ:
+if "GDB_PWN_MANAGER" not in os.environ:
     # Initialize a default plugin if none were executed
     init_pwndbg()
 end

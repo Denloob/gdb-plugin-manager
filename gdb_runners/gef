@@ -1,2 +1,2 @@
 #!/bin/sh
-GDB_PLUGIN_MANAGER='' gdb -q --eval-command 'py init_gef()' "$@"
+GDB_PWN_MANAGER='' gdb -q --eval-command 'py init_gef()' "$@"
