@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # NOTE: if you change the hardcoded GDB_HOME path, you probably want to also change it in update.sh
-GDB_HOME="${GDB_HOME:=~/.gdb/}" # You can overwrite the GDB_HOME with an env variable.
+GDB_HOME="${GDB_HOME:=$GDB_HOME/.gdb/}" # You can overwrite the GDB_HOME with an env variable.
 
 update () {
     echo "[+] Updating $1..."

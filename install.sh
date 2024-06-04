@@ -16,7 +16,7 @@ if [ -f ~/.gdbinit ] || [ -h ~/.gdbinit ]; then
 fi
 
 # NOTE: if you change the hardcoded GDB_HOME path, you probably want to also change it in update.sh
-GDB_HOME="${GDB_HOME:=~/.gdb/}" # You can overwrite the GDB_HOME with an env variable.
+GDB_HOME="${GDB_HOME:=$HOME/.gdb/}" # You can overwrite the GDB_HOME with an env variable.
 
 #######################################
 # Download a gdb plugin.
@@ -67,10 +67,10 @@ fi
 
 {
 	echo "[+] Creating files..."
-	chmod +x "$SCRIPT_DIR/gdb_runners/*"
+	chmod +x "$SCRIPT_DIR"/gdb_runners/*
     echo '[*] Copying [ '"$(basename -a "$SCRIPT_DIR"/gdb_runners/* | tr '\n' ' ')"'] to /usr/bin/'
     read -rp "Press Enter to continue or Ctrl+C to cancel"
-	sudo cp -i "$SCRIPT_DIR/gdb_runners/*" /usr/bin/
+	sudo cp -i "$SCRIPT_DIR"/gdb_runners/* /usr/bin/
 } || {
 	echo "[-] Permission denied"
 	exit
