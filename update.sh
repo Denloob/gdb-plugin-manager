@@ -1,15 +1,17 @@
-echo "[+] Updating PEDA..."
-cd ~/peda
-git pull
+#!/bin/bash
 
-echo "[+] Updating PEDA-ARM..."
-cd ~/peda-arm
-git pull
+# NOTE: if you change the hardcoded GDB_HOME path, you probably want to also change it in update.sh
+GDB_HOME="${GDB_HOME:=~/.gdb/}" # You can overwrite the GDB_HOME with an env variable.
 
-echo "[+] Updating Pwndbg..."
-cd ~/pwndbg
-git pull
+update () {
+    echo "[+] Updating $1..."
+    cd "$GDB_HOME/$1" || return 1
+    git pull
+    echo "[+] Done: $1"
+}
 
-echo "[+] Updating GEF..."
-cd ~/gef
-git pull
+update 'peda'
+update 'peda-arm'
+update 'pwndbg'
+update 'gef'
+update 'splitmind'
