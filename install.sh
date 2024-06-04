@@ -58,8 +58,12 @@ cd "$SCRIPT_DIR" || {
 	exit 1
 }
 
+if [[ -z $GDB_PLUGIN_MANAGER_OVERWRITE ]]; then
 echo "[+] Setting .gdbinit..."
 read -rp "Overwrite .gdbinit with a default one? (enter 'y' or 'n') " overwrite
+else
+    overwrite="$GDB_PLUGIN_MANAGER_OVERWRITE"
+fi
 if [ "$overwrite" = 'y' ]; then
 	cp gdbinit ~/.gdbinit
 fi
