@@ -67,8 +67,10 @@ fi
 
 {
 	echo "[+] Creating files..."
-	chmod +x peda peda-arm peda-intel pwndbg gef
-	sudo cp -i peda peda-arm peda-intel pwndbg gef /usr/bin/
+	chmod +x "$SCRIPT_DIR/gdb_runners/*"
+    echo '[*] Copying [ '"$(basename -a "$SCRIPT_DIR"/gdb_runners/* | tr '\n' ' ')"'] to /usr/bin/'
+    read -rp "Press Enter to continue or Ctrl+C to cancel"
+	sudo cp -i "$SCRIPT_DIR/gdb_runners/*" /usr/bin/
 } || {
 	echo "[-] Permission denied"
 	exit
